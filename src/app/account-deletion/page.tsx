@@ -11,7 +11,7 @@ export default function AccountDeletion() {
           <li>Open TREXVEN Owner and sign in to your account.</li><li>Open <strong>Me</strong>, then <strong>Security</strong>.</li><li>Choose <strong>Delete account</strong>.</li><li>Read the confirmation carefully, complete any requirements shown by the app, and confirm when you are ready.</li>
         </ol>
       </article>
-      <article className="surface card-padding"><h2 className="text-xl font-bold">If the request is interrupted</h2><p className="mt-4 leading-7 text-muted">Follow the app's recovery instructions for the original deletion request. A timeout does not confirm whether deletion completed. Keep the original app data until the result is resolved.</p><Link href="/contact" className="mt-4 inline-flex min-h-12 items-center font-bold text-signal">Contact information →</Link></article>
+      <article className="surface card-padding"><h2 className="text-xl font-bold">If the request is interrupted</h2><p className="mt-4 leading-7 text-muted">Follow the app&apos;s recovery instructions for the original deletion request. A timeout does not confirm whether deletion completed. Keep the original app data until the result is resolved.</p><Link href="/contact" className="mt-4 inline-flex min-h-12 items-center font-bold text-signal">Contact information →</Link></article>
       <p className="text-sm leading-7 text-muted">This page describes the Owner app workflow. A separate website deletion request channel and detailed retention information have not been published here yet.</p>
     </div>
   </InfoPage>;
