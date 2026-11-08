@@ -31,22 +31,21 @@ export function Navigation() {
       document.removeEventListener("pointerdown", outside);
     };
   }, [open]);
-  return <header ref={header} className="theme-inverse sticky top-0 z-50 border-b border-white/10 bg-midnight/95 backdrop-blur-xl">
-    <div className="container-site flex h-[68px] items-center justify-between gap-4 lg:h-[76px]">
-      <Link href="/" aria-label={brand.name + " home"} className="shrink-0 py-2 text-2xl font-black tracking-[-.07em]">{brand.name}<span className="text-blue-400">.</span></Link>
-      <nav aria-label="Primary" className="hidden items-center gap-6 text-sm lg:flex">
-        {navigationLinks.map(([label, url]) => <Link key={url} href={url} aria-current={current(url) ? "page" : undefined} className={current(url) ? "py-3 text-blue-200 underline underline-offset-8" : "py-3 text-muted hover:text-white"}>{label}</Link>)}
+
+  return <header ref={header} className="trexven-floating-navigation">
+    <div className="trexven-nav-pill">
+      <Link href="/" aria-label={brand.name + " home"} className="trexven-nav-brand">TREXVEN<span>.</span></Link>
+      <nav aria-label="Primary" className="trexven-nav-links">
+        {navigationLinks.map(([label, url]) => <Link key={url} href={url} aria-current={current(url) ? "page" : undefined} className={current(url) ? "is-current" : ""}>{label}</Link>)}
       </nav>
-      <Link href="/download" className="button button-blue hidden text-sm lg:inline-flex">{actions.download}<ArrowUpRight size={16} aria-hidden="true" /></Link>
-      <button ref={toggle} type="button" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl hover:bg-white/10 lg:hidden" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>
-        {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+      <Link href="/download" className="trexven-nav-cta">{actions.download}<ArrowUpRight size={17} aria-hidden="true" /></Link>
+      <button ref={toggle} type="button" className="trexven-nav-toggle" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>
+        {open ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}
       </button>
     </div>
-    <nav id="mobile-navigation" aria-label="Mobile" hidden={!open} className="mobile-menu container-site lg:hidden">
-      <div className="flex flex-col gap-1 pb-2">
-        {navigationLinks.map(([label, url]) => <Link key={url} href={url} aria-current={current(url) ? "page" : undefined} onClick={() => setOpen(false)} className={current(url) ? "rounded-xl bg-white/10 px-3 py-3 text-blue-200" : "rounded-xl px-3 py-3 text-muted hover:bg-white/5"}>{label}</Link>)}
-        <Link href="/download" className="button button-blue mt-3" onClick={() => setOpen(false)}>{actions.download}</Link>
-      </div>
+    <nav id="mobile-navigation" aria-label="Mobile" hidden={!open} className="trexven-mobile-nav">
+      <div>{navigationLinks.map(([label, url]) => <Link key={url} href={url} aria-current={current(url) ? "page" : undefined} onClick={() => setOpen(false)} className={current(url) ? "is-current" : ""}>{label}</Link>)}
+        <Link href="/download" className="trexven-mobile-cta" onClick={() => setOpen(false)}>{actions.download}<ArrowUpRight size={16}/></Link></div>
     </nav>
   </header>;
 }
