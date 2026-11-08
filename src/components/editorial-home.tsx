@@ -98,7 +98,6 @@ function ProductJourney() {
     nodes.forEach(node=>observer.observe(node));
     return ()=>observer.disconnect();
   }, []);
-  const selected = demoScenes.find(scene=>scene.id===active)!;
   return <section id="experience-products" className="experience-sheet experience-dark experience-product-journey">
     <div className="experience-container">
       <div className="experience-journey-intro"><p className="experience-kicker">BUILT TO WORK TOGETHER</p><h2>Five perspectives.<br/><i>One clearer picture.</i></h2><p>Scroll to see how every part of TREXVEN helps your business move forward.</p></div>
@@ -107,7 +106,7 @@ function ProductJourney() {
           {demoScenes.map(scene=><article key={scene.id} data-experience-scene={scene.id} className={"experience-journey-scene "+(active===scene.id?"is-active":"")}>
             <p>{scene.eyebrow}</p><h3>{scene.title}</h3><div className="experience-journey-copy"><p>{scene.detail}</p><ul>{scene.bullets.map(b=><li key={b}><Check size={15}/>{b}</li>)}</ul><Link href={scene.id==="angel"?"/products/owner":"/products/"+(scene.id==="owner"?"owner":scene.id==="pos"?"pos":scene.id)} className="experience-inline-link">Explore {scene.id==="owner"?"TREXVEN":scene.id==="pos"?"TREXVEN POS":scene.id[0].toUpperCase()+scene.id.slice(1)} <ArrowUpRight size={17}/></Link></div></article>)}
         </div>
-        <div className="experience-journey-sticky"><div className="experience-device-frame"><div className="experience-device-notch"/><DemoScreen active={active}/></div><div className="experience-demo-controls" aria-label="Product preview selector">{demoScenes.map((scene,i)=><button type="button" key={scene.id} onClick={()=>{setActive(scene.id);document.querySelector('[data-experience-scene="'+scene.id+'"]')?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth",block:"center"});}} className={active===scene.id?"is-selected":""} aria-label={"Show "+scene.id+" preview"} aria-pressed={active===scene.id}>{String(i+1).padStart(2,"0")}</button>)}</div><p className="experience-demo-note">Interactive illustration · not live business data</p></div>
+        <div className="experience-journey-sticky"><div className="experience-device-frame"><div className="experience-device-notch"/><DemoScreen active={active}/></div><div className="experience-demo-controls" aria-label="Product preview selector">{demoScenes.map((scene,i)=><button type="button" key={scene.id} onClick={()=>{setActive(scene.id);document.querySelector('[data-experience-scene="'+scene.id+'"]')?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});}} className={active===scene.id?"is-selected":""} aria-label={"Show "+scene.id+" preview"} aria-pressed={active===scene.id}>{String(i+1).padStart(2,"0")}</button>)}</div><p className="experience-demo-note">Interactive illustration · not live business data</p></div>
       </div>
     </div>
   </section>;
