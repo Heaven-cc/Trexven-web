@@ -4,6 +4,9 @@ import { products } from "@/config/site";
 import { actions } from "@/config/content";
 import { OwnerPreview } from "@/components/owner-preview";
 
+// Send the server currency list to the preview so hydration uses the same options.
+const demoCurrencies = Intl.supportedValuesOf("currency");
+
 const productIcons = { owner: BriefcaseBusiness, pos: ShoppingCart, intelligence: BrainCircuit, vision: ScanEye };
 export function Hero({ eyebrow, title, description, primary = true }: { eyebrow: string; title: string; description: string; primary?: boolean }) {
   return <section className="hero-glow">
@@ -15,7 +18,7 @@ export function Hero({ eyebrow, title, description, primary = true }: { eyebrow:
           <Link className="button button-outline" href={primary ? "/products" : "#products"}>{primary ? actions.explore : "Browse products"}<ArrowRight size={18} aria-hidden="true" /></Link>
         </div>
       </div>
-      <div className="min-w-0"><OwnerPreview compact /><p className="mt-4 text-center text-xs leading-5 text-muted">Illustrative recreation of TREXVEN Owner · not a live app</p></div>
+      <div className="min-w-0"><OwnerPreview compact currencies={demoCurrencies} /><p className="mt-4 text-center text-xs leading-5 text-muted">Illustrative recreation of TREXVEN Owner · not a live app</p></div>
     </div>
   </section>;
 }

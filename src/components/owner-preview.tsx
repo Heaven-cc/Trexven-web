@@ -10,9 +10,8 @@ const screens = [
 type Tab = (typeof screens)[number]["name"];
 // Illustration only: these amounts are never mixed with customer or billing data.
 const demo = { sales: 152400, stock: 1240500, gross: 2845600, net: 2714800, refunds: 45200, collections: 2760000, repayments: 156000 };
-const currencies = Intl.supportedValuesOf("currency");
 
-export function OwnerPreview({ compact = false }: { compact?: boolean }) {
+export function OwnerPreview({ compact = false, currencies }: { compact?: boolean; currencies: readonly string[] }) {
   const [tab, setTab] = useState<Tab>("Home");
   const [currency, setCurrency] = useState("");
   const id = useId();
