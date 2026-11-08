@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./editorial.css";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { brand } from "@/config/content";
