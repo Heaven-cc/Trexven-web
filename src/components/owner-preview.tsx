@@ -1,7 +1,73 @@
 "use client";
-import {useState} from "react";
-import {Home,Archive,Wallet,ChartNoAxesCombined,UserRound,Store,PlusSquare,Camera,Users,ScanLine,Search,ChevronDown,Shield,Settings, Bell, CreditCard, Sparkles} from "lucide-react";
-type Tab="Home"|"Inventory"|"Finance"|"Me";
-const tabs:Tab[]=["Home","Inventory","Finance","Me"];
-const icons=[Home,Archive,Wallet,UserRound];
-export function OwnerPreview({compact=false}:{compact?:boolean}){const[tab,setTab]=useState<Tab>("Home");return <div className={`mx-auto max-w-[470px] rounded-[32px] border-[8px] border-slate-700 bg-[#f5f6fc] text-[#111b32] shadow-[0_20px_50px_rgba(0,0,0,.18)] overflow-hidden ${compact?"max-w-[365px]":""}`}><div className="px-5 pt-5 pb-3 flex justify-between items-center"><span className="font-black tracking-[.14em] text-sm">TREXVEN</span><span className="text-blue-600 text-xs font-bold flex gap-1 items-center"><Sparkles size={16}/> Angel</span><Bell size={17}/></div><div className="px-5 pt-7 pb-5 min-h-[365px]"><h3 className="font-extrabold text-2xl mb-2">{tab==="Home"?"Your business at a glance":tab}</h3>{tab==="Home"?<><p className="text-slate-500 text-xs mb-5">Your business overview</p><div className="bg-white rounded-2xl p-4 mb-4 text-sm font-bold flex items-center gap-2"><Store size={18} className="text-blue-600"/> Your business</div><div className="rounded-2xl bg-[#111d3b] text-white p-6 mb-4"><p className="text-[10px] uppercase tracking-widest text-slate-300">Sales today</p><p className="text-2xl font-extrabold mt-5">₦152,400.00</p><p className="text-[11px] text-slate-400 mt-2">Demo data · not live</p></div><div className="grid grid-cols-2 gap-3">{[["Transactions","68"],["Stock value","₦1,240,500"],["Low stock","6"],["Alerts","3"]].map(([k,v])=><div className="bg-white rounded-2xl p-4" key={k}><p className="text-[11px] text-slate-500">{k}</p><p className="text-xl font-bold mt-3">{v}</p></div>)}</div></>:tab==="Inventory"?<><p className="text-slate-500 text-xs mb-5">Products and stock management</p><div className="bg-white rounded-xl p-4 text-xs text-slate-400 flex gap-2 items-center"><Search size={16}/> Search products</div><div className="bg-white rounded-2xl p-5 grid grid-cols-3 gap-3 text-center my-4">{[["248","Products"],["6","Low stock"],["3","Out of stock"]].map(([v,k])=><div key={k}><p className="text-xl font-bold">{v}</p><p className="text-[10px] text-slate-500 mt-2">{k}</p></div>)}</div><div className="bg-white rounded-xl p-5 mt-4 text-xs text-blue-600 font-semibold flex gap-2 items-center"><Archive size={17}/> Stocktaking & stock management</div><div className="grid grid-cols-2 gap-3 mt-4">{["Scan","Restock"].map(x=><div className="bg-white rounded-xl text-center p-4 text-xs font-semibold" key={x}>{x}</div>)}</div></>:tab==="Finance"?<><p className="text-slate-500 text-xs mb-5">Your business financial overview</p><div className="bg-[#111d3b] rounded-2xl text-white p-6 mb-4"><p className="text-[10px] uppercase tracking-widest text-slate-300">Gross sales</p><p className="text-2xl font-bold mt-5">₦2,845,600.00</p><p className="text-[11px] text-slate-400 mt-2">This month · before refunds</p></div><div className="bg-white rounded-2xl p-5"><p className="font-bold text-sm mb-3">Financial breakdown</p>{[["Net collected","₦2,714,800"],["Refunds","₦45,200"],["Sale collections","₦2,760,000"],["Repayments","₦156,000"]].map(([x,v])=><div key={x} className="flex justify-between py-2 border-b text-[11px] border-slate-100"><span className="text-slate-500">{x}</span><span className="font-semibold">{v}</span></div>)}</div></>:<><div className="bg-white rounded-2xl p-5 flex gap-3 items-center mb-5"><div className="rounded-full bg-blue-50 p-3 text-blue-600"><UserRound/></div><div><p className="font-bold">Business owner</p><p className="text-xs text-slate-500">Account settings</p></div></div>{[[Settings,"Business profile"],[Users,"Employees"],[Shield,"Permissions"],[CreditCard,"Manage subscription"],[Bell,"Notifications"]].map(([I,t])=>{const Icon=I as typeof Settings;return <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3 mb-2 text-xs font-semibold" key={t as string}><Icon size={17} className="text-blue-600"/>{t as string}</div>})}</>}</div><nav aria-label="Preview screen selector" className="grid grid-cols-4 bg-white border-t border-slate-100 px-2 py-3">{tabs.map((t,i)=>{const Icon=icons[i];return <button key={t} type="button" onClick={()=>setTab(t)} aria-pressed={tab===t} className={`flex flex-col items-center gap-1 rounded-xl py-2 text-[10px] font-semibold ${tab===t?"bg-blue-50 text-blue-600":"text-slate-500"}`}><Icon size={20}/>{t}</button>})}</nav></div>}
+import { useId, useState } from "react";
+import { Home, Archive, Wallet, UserRound, Store, Search, Shield, Settings, Bell, CreditCard, Users, Sparkles } from "lucide-react";
+import { brand } from "@/config/content";
+
+const screens = [
+  { name: "Home", icon: Home }, { name: "Inventory", icon: Archive },
+  { name: "Finance", icon: Wallet }, { name: "Me", icon: UserRound },
+] as const;
+type Tab = (typeof screens)[number]["name"];
+// Illustration only: these amounts are never mixed with customer or billing data.
+const demo = { sales: 152400, stock: 1240500, gross: 2845600, net: 2714800, refunds: 45200, collections: 2760000, repayments: 156000 };
+const currencies = Intl.supportedValuesOf("currency");
+
+export function OwnerPreview({ compact = false }: { compact?: boolean }) {
+  const [tab, setTab] = useState<Tab>("Home");
+  const [currency, setCurrency] = useState("");
+  const id = useId();
+  const money = (amount: number) => currency ? new Intl.NumberFormat("en", { style: "currency", currency, currencyDisplay: "code" }).format(amount) : "—";
+  return <div className={compact ? "mx-auto w-full min-w-0 max-w-[365px]" : "mx-auto w-full min-w-0 max-w-[470px]"}>
+    <div className="mb-4">
+      <label htmlFor={id} className="mb-2 block text-sm font-semibold">Demo currency</label>
+      <select id={id} value={currency} onChange={event => setCurrency(event.target.value)} aria-describedby={id + "-note"} className="min-h-12 w-full rounded-xl border border-line bg-surface px-3 text-base text-ink">
+        <option value="">Choose a currency</option>
+        {currencies.map(code => <option key={code} value={code}>{code}</option>)}
+      </select>
+      <p id={id + "-note"} className="mt-2 text-xs leading-5 text-muted">Illustration only. Your business uses the currency selected at registration.</p>
+    </div>
+    <div className="overflow-hidden rounded-[28px] border-4 border-line bg-cloud text-ink shadow-xl sm:border-8">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 pb-3 pt-5">
+        <span className="text-sm font-black tracking-[.14em]">{brand.name}</span>
+        <span className="flex items-center gap-1 text-xs font-bold text-signal"><Sparkles size={16} aria-hidden="true" />Angel</span>
+      </div>
+      <div className="min-h-[365px] px-4 pb-5 pt-4">
+        <h3 className="mb-2 text-xl font-extrabold">{tab === "Home" ? "Your business at a glance" : tab}</h3>
+        {tab === "Home" ? <>
+          <p className="mb-5 text-sm text-muted">Your business overview</p>
+          <div className="surface mb-4 flex items-center gap-2 p-4 text-sm font-bold"><Store size={18} className="shrink-0 text-signal" aria-hidden="true" />Your business</div>
+          <div className="theme-inverse mb-4 rounded-2xl bg-midnight p-4">
+            <p className="text-xs uppercase tracking-widest text-muted">Sales today</p>
+            <p className="mt-4 break-words text-xl font-extrabold tabular-nums">{money(demo.sales)}</p>
+            <p className="mt-2 text-xs text-muted">Demo data · not live</p>
+          </div>
+          <dl className="grid gap-3">
+            {[["Transactions", "68"], ["Stock value", money(demo.stock)], ["Low stock", "6"], ["Alerts", "3"]].map(([label, value]) => <div className="surface flex flex-wrap items-baseline justify-between gap-2 p-4" key={label}><dt className="text-sm text-muted">{label}</dt><dd className="min-w-0 break-words font-bold tabular-nums">{value}</dd></div>)}
+          </dl>
+        </> : tab === "Inventory" ? <>
+          <p className="mb-5 text-sm text-muted">Products and stock management</p>
+          <div className="surface flex items-center gap-2 p-4 text-sm text-muted"><Search size={16} aria-hidden="true" />Search products</div>
+          <dl className="surface my-4 divide-y divide-line p-4">
+            {[["Products", "248"], ["Low stock", "6"], ["Out of stock", "3"]].map(([label, value]) => <div className="flex flex-wrap justify-between gap-2 py-3" key={label}><dt className="text-sm text-muted">{label}</dt><dd className="font-bold">{value}</dd></div>)}
+          </dl>
+          <div className="surface p-4 text-sm font-semibold text-signal">Stocktaking &amp; stock management</div>
+          <div className="mt-3 grid grid-cols-2 gap-3">{["Scan", "Restock"].map(label => <div key={label} className="surface p-3 text-center text-sm font-semibold">{label}</div>)}</div>
+        </> : tab === "Finance" ? <>
+          <p className="mb-5 text-sm text-muted">Your business financial overview</p>
+          <div className="theme-inverse mb-4 rounded-2xl bg-midnight p-4">
+            <p className="text-xs uppercase tracking-widest text-muted">Gross sales</p><p className="mt-4 break-words text-xl font-bold tabular-nums">{money(demo.gross)}</p><p className="mt-2 text-xs text-muted">Demo data · this month · before refunds</p>
+          </div>
+          <div className="surface p-4"><p className="mb-3 text-sm font-bold">Financial breakdown</p>
+            <dl className="divide-y divide-line">{[["Net collected", demo.net], ["Refunds", demo.refunds], ["Sale collections", demo.collections], ["Repayments", demo.repayments]].map(([label, value]) => <div key={label} className="flex flex-wrap justify-between gap-2 py-3 text-sm"><dt className="text-muted">{label}</dt><dd className="min-w-0 break-words font-semibold tabular-nums">{money(Number(value))}</dd></div>)}</dl>
+          </div>
+        </> : <>
+          <div className="surface mb-5 flex items-center gap-3 p-4"><UserRound className="shrink-0 text-signal" aria-hidden="true" /><div><p className="font-bold">Business owner</p><p className="text-sm text-muted">Account settings</p></div></div>
+          {[{ icon: Settings, label: "Business profile" }, { icon: Users, label: "Employees" }, { icon: Shield, label: "Permissions" }, { icon: CreditCard, label: "Manage subscription" }, { icon: Bell, label: "Notifications" }].map(({ icon: Icon, label }) => <div className="surface mb-2 flex items-center gap-3 px-4 py-3 text-sm font-semibold" key={label}><Icon size={17} className="shrink-0 text-signal" aria-hidden="true" />{label}</div>)}
+        </>}
+      </div>
+      <nav aria-label="Preview screen selector" className="grid grid-cols-4 gap-1 border-t border-line bg-surface p-2">
+        {screens.map(({ name, icon: Icon }) => <button key={name} type="button" onClick={() => setTab(name)} aria-pressed={tab === name} className={"flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-[11px] font-semibold " + (tab === name ? "bg-wash text-signal" : "text-muted")}><Icon size={20} aria-hidden="true" />{name}</button>)}
+      </nav>
+    </div>
+  </div>;
+}

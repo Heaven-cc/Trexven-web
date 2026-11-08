@@ -1,1 +1,37 @@
-import {notFound} from "next/navigation";import Link from "next/link";import {products} from "@/config/site";import {FeatureList,CTA} from "@/components/sections";import {ArrowRight} from "lucide-react";export function generateStaticParams(){return products.map(p=>({slug:p.slug}))}export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const{slug}=await params;const p=products.find(x=>x.slug===slug);return {title:p?.name||"Product",description:p?.description}}export default async function ProductPage({params}:{params:Promise<{slug:string}>}){const{slug}=await params;const p=products.find(x=>x.slug===slug);if(!p)notFound();return <><section className="hero-glow text-white"><div className="container-site py-28"><p className="text-blue-300 uppercase tracking-widest text-xs font-bold">TREXVEN Ecosystem / {p.audience}</p><h1 className="text-5xl md:text-7xl font-black tracking-tight mt-6">{p.name}</h1><p className="text-2xl text-blue-200 mt-5">{p.label}</p><p className="text-slate-300 max-w-2xl leading-8 mt-6">{p.description}</p><Link href="/download" className="button button-blue mt-9">Explore availability <ArrowRight size={18}/></Link></div></section><section className="section bg-cloud"><div className="container-site"><p className="eyebrow">Capabilities</p><h2 className="heading mt-4 mb-10">Designed with purpose.</h2><FeatureList items={p.features}/><p className="text-slate-500 mt-8 text-sm">Illustrative capability overview. Confirm availability in the current application release before relying on a feature.</p></div></section><section className="section bg-white"><div className="container-site max-w-3xl"><p className="eyebrow">Part of TREXVEN</p><h2 className="heading mt-4">Separate products. Connected vision.</h2><p className="text-slate-500 leading-8 mt-6">TREXVEN Owner, POS, Intelligence and Vision have distinct responsibilities. The public website introduces these products but does not provide access to their operational systems.</p><Link href="/products" className="text-signal font-bold inline-flex items-center gap-2 mt-8">Explore all products <ArrowRight size={17}/></Link></div></section><CTA/></>}
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { products } from "@/config/site";
+import { actions } from "@/config/content";
+import { pageMetadata } from "@/config/metadata";
+import { FeatureList, CTA } from "@/components/sections";
+import { ArrowRight } from "lucide-react";
+type Props = { params: Promise<{ slug: string }> };
+export function generateStaticParams() { return products.map(product => ({ slug: product.slug })); }
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const product = products.find(item => item.slug === slug);
+  if (!product) notFound();
+  return pageMetadata(product.name, product.description, "/products/" + product.slug);
+}
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+  const product = products.find(item => item.slug === slug);
+  if (!product) notFound();
+  return <>
+    <section className="hero-glow page-hero"><div className="container-site">
+      <p className="eyebrow">TREXVEN ecosystem / {product.audience}</p><h1 className="hero-title mt-6">{product.name}</h1>
+      <p className="mt-5 text-xl text-signal sm:text-2xl">{product.label}</p><p className="mt-6 max-w-2xl leading-8 text-muted">{product.description}</p>
+      <Link href="/download" className="button button-blue mt-8 w-full sm:w-auto">Explore availability<ArrowRight size={18} aria-hidden="true" /></Link>
+    </div></section>
+    <section className="section bg-cloud"><div className="container-site">
+      <p className="eyebrow">Capabilities</p><h2 className="heading mb-8 mt-4">Designed with purpose.</h2><FeatureList items={product.features} />
+      <p className="mt-6 text-sm leading-7 text-muted">Illustrative capability overview. Confirm availability in the current application release before relying on a feature.</p>
+    </div></section>
+    <section className="section bg-surface"><div className="container-site max-w-3xl">
+      <p className="eyebrow">Part of TREXVEN</p><h2 className="heading mt-4">Separate products. Connected vision.</h2>
+      <p className="mt-6 leading-8 text-muted">TREXVEN Owner, POS, Intelligence and Vision have distinct responsibilities. Explore their roles and find the right tools for your business.</p>
+      <Link href="/products" className="mt-6 inline-flex min-h-12 items-center gap-2 font-bold text-signal">{actions.explore}<ArrowRight size={17} aria-hidden="true" /></Link>
+    </div></section>
+    <CTA />
+  </>;
+}

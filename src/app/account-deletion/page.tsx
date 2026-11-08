@@ -1,1 +1,18 @@
-import Link from "next/link";export const metadata={title:"Account deletion information",description:"The verified TREXVEN account deletion process will be published here before public launch."};export default function Page(){const blocks=[["Publication pending","Confirm the supported in-app deletion workflow and required contact details before publication."]];return <><section className="hero-glow text-white py-24"><div className="container-site"><p className="text-blue-300 uppercase text-xs tracking-widest font-bold">Account information</p><h1 className="text-5xl md:text-6xl font-black tracking-tight max-w-4xl mt-6">Account deletion information</h1><p className="text-slate-300 text-lg max-w-2xl mt-7 leading-8">The verified TREXVEN account deletion process will be published here before public launch.</p></div></section><section className="section bg-cloud"><div className="container-site grid md:grid-cols-1 gap-5">{blocks.map(([name,description])=><article key={name} className="surface p-8"><h2 className="font-bold text-xl">{name}</h2><p className="text-slate-500 mt-4 leading-7">{description}</p></article>)}</div></section><section className="py-12 text-center bg-white"><Link href="/products" className="text-signal font-bold">Explore the TREXVEN ecosystem →</Link></section></>}
+import Link from "next/link";
+import { InfoPage } from "@/components/info-page";
+import { pageMetadata } from "@/config/metadata";
+export const metadata = pageMetadata("Delete your TREXVEN account", "How to request account deletion in the TREXVEN Owner app.", "/account-deletion");
+export default function AccountDeletion() {
+  return <InfoPage eyebrow="Your account" title="Account deletion." description="Request deletion from the TREXVEN Owner app while signed in to the account you want to delete.">
+    <div className="space-y-6">
+      <article className="surface card-padding"><h2 className="text-2xl font-bold">Before you begin</h2><p className="mt-4 leading-7 text-muted">Recover pending transactions, close cash shifts and complete any required business handover. The in-app confirmation explains that deletion permanently removes your login and personal account access; business and financial history are retained.</p></article>
+      <article className="surface card-padding"><h2 className="text-2xl font-bold">Delete in TREXVEN Owner</h2>
+        <ol className="mt-5 list-decimal space-y-4 pl-6 leading-7">
+          <li>Open TREXVEN Owner and sign in to your account.</li><li>Open <strong>Me</strong>, then <strong>Security</strong>.</li><li>Choose <strong>Delete account</strong>.</li><li>Read the confirmation carefully, complete any requirements shown by the app, and confirm when you are ready.</li>
+        </ol>
+      </article>
+      <article className="surface card-padding"><h2 className="text-xl font-bold">If the request is interrupted</h2><p className="mt-4 leading-7 text-muted">Follow the app's recovery instructions for the original deletion request. A timeout does not confirm whether deletion completed. Keep the original app data until the result is resolved.</p><Link href="/contact" className="mt-4 inline-flex min-h-12 items-center font-bold text-signal">Contact information →</Link></article>
+      <p className="text-sm leading-7 text-muted">This page describes the Owner app workflow. A separate website deletion request channel and detailed retention information have not been published here yet.</p>
+    </div>
+  </InfoPage>;
+}

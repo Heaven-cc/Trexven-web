@@ -1,1 +1,15 @@
-import Link from "next/link";export const metadata={title:"How can we help?",description:"Find guidance on TREXVEN applications and how to get started."};export default function Page(){const blocks=[["Getting started","Download the appropriate application and complete setup inside the app."],["Owner and POS","Owner is for business owners; POS is for authorized employee operations."],["Need help?","Use the verified contact methods published on our Contact page."]];return <><section className="hero-glow text-white py-24"><div className="container-site"><p className="text-blue-300 uppercase text-xs tracking-widest font-bold">Support</p><h1 className="text-5xl md:text-6xl font-black tracking-tight max-w-4xl mt-6">How can we help?</h1><p className="text-slate-300 text-lg max-w-2xl mt-7 leading-8">Find guidance on TREXVEN applications and how to get started.</p></div></section><section className="section bg-cloud"><div className="container-site grid md:grid-cols-3 gap-5">{blocks.map(([name,description])=><article key={name} className="surface p-8"><h2 className="font-bold text-xl">{name}</h2><p className="text-slate-500 mt-4 leading-7">{description}</p></article>)}</div></section><section className="py-12 text-center bg-white"><Link href="/products" className="text-signal font-bold">Explore the TREXVEN ecosystem →</Link></section></>}
+import Link from "next/link";
+import { InfoPage } from "@/components/info-page";
+import { pageMetadata } from "@/config/metadata";
+export const metadata = pageMetadata("TREXVEN support", "Getting started, password recovery and account guidance for TREXVEN.", "/support");
+const topics = [
+  { title: "Getting started", body: "Choose Owner to set up and manage your business, or POS for authorized employee operations. Complete setup inside the appropriate app.", url: "/download", action: "Find your app" },
+  { title: "Password recovery", body: "On the Owner sign-in screen, choose Forgot password? and enter your account email. Follow the recovery email instructions. Check your spam folder if you do not see the message.", url: "/contact", action: "Contact information" },
+  { title: "Subscriptions", body: "View the subscription options in TREXVEN Owner for your business. Public website prices are not available yet.", url: "/pricing", action: "Subscription availability" },
+  { title: "Account deletion", body: "Review the in-app deletion steps and preparation before confirming a permanent account deletion.", url: "/account-deletion", action: "Read deletion guidance" },
+];
+export default function Support() {
+  return <InfoPage eyebrow="Support" title="How can we help?" description="Start with guidance for your app, account and business.">
+    <div className="grid gap-5 md:grid-cols-2">{topics.map(topic => <article key={topic.title} className="surface card-padding flex flex-col"><h2 className="text-xl font-bold">{topic.title}</h2><p className="mb-5 mt-4 leading-7 text-muted">{topic.body}</p><Link href={topic.url} className="mt-auto inline-flex min-h-12 items-center font-bold text-signal">{topic.action} →</Link></article>)}</div>
+  </InfoPage>;
+}

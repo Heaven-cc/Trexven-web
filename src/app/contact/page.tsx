@@ -1,1 +1,13 @@
-import Link from "next/link";export const metadata={title:"Connect with TREXVEN.",description:"Official support and business contact information will be published here once verified."};export default function Page(){const blocks=[["Support","Verified support email: pending."],["Partnerships","Verified business contact: pending."]];return <><section className="hero-glow text-white py-24"><div className="container-site"><p className="text-blue-300 uppercase text-xs tracking-widest font-bold">Contact</p><h1 className="text-5xl md:text-6xl font-black tracking-tight max-w-4xl mt-6">Connect with TREXVEN.</h1><p className="text-slate-300 text-lg max-w-2xl mt-7 leading-8">Official support and business contact information will be published here once verified.</p></div></section><section className="section bg-cloud"><div className="container-site grid md:grid-cols-2 gap-5">{blocks.map(([name,description])=><article key={name} className="surface p-8"><h2 className="font-bold text-xl">{name}</h2><p className="text-slate-500 mt-4 leading-7">{description}</p></article>)}</div></section><section className="py-12 text-center bg-white"><Link href="/products" className="text-signal font-bold">Explore the TREXVEN ecosystem →</Link></section></>}
+import Link from "next/link";
+import { InfoPage } from "@/components/info-page";
+import { supportEmail } from "@/config/site";
+import { pageMetadata } from "@/config/metadata";
+export const metadata = pageMetadata("Contact TREXVEN", "Support and contact information for TREXVEN.", "/contact");
+export default function Contact() {
+  return <InfoPage eyebrow="Contact" title="Connect with TREXVEN." description="Find help for your business and your TREXVEN apps.">
+    <div className="surface card-padding"><h2 className="text-2xl font-bold">Support</h2>
+      {supportEmail ? <><p className="mt-4 leading-7 text-muted">Email our support team. Include the app you use and a short description of the issue. Never send your password or verification codes.</p><a href={"mailto:" + supportEmail} className="mt-4 inline-flex min-h-12 max-w-full items-center break-all py-2 font-bold text-signal">{supportEmail}</a></> : <p className="mt-4 leading-7 text-muted">A verified website support address has not been published yet. You can find setup and account guidance in our support pages.</p>}
+      <div className="mt-6"><Link href="/support" className="button button-outline w-full sm:w-auto">Browse support guidance</Link></div>
+    </div>
+  </InfoPage>;
+}

@@ -1,1 +1,17 @@
-import Link from "next/link";export const metadata={title:"Built for the way you work.",description:"Explore how connected business tools can support retail stores, growing businesses and multi-branch operations."};export default function Page(){const blocks=[["Retail operations","Keep products, sales and everyday activity in focus."],["Growing businesses","Bring teams and operations into a more connected workflow."],["Multi-branch visibility","Explore business and branch management capabilities where supported."]];return <><section className="hero-glow text-white py-24"><div className="container-site"><p className="text-blue-300 uppercase text-xs tracking-widest font-bold">Solutions</p><h1 className="text-5xl md:text-6xl font-black tracking-tight max-w-4xl mt-6">Built for the way you work.</h1><p className="text-slate-300 text-lg max-w-2xl mt-7 leading-8">Explore how connected business tools can support retail stores, growing businesses and multi-branch operations.</p></div></section><section className="section bg-cloud"><div className="container-site grid md:grid-cols-3 gap-5">{blocks.map(([name,description])=><article key={name} className="surface p-8"><h2 className="font-bold text-xl">{name}</h2><p className="text-slate-500 mt-4 leading-7">{description}</p></article>)}</div></section><section className="py-12 text-center bg-white"><Link href="/products" className="text-signal font-bold">Explore the TREXVEN ecosystem →</Link></section></>}
+import Link from "next/link";
+import { InfoPage } from "@/components/info-page";
+import { actions } from "@/config/content";
+import { pageMetadata } from "@/config/metadata";
+const description = "Explore how connected business tools can support retail stores, growing businesses and multi-branch operations.";
+export const metadata = pageMetadata("Solutions", description, "/solutions");
+const blocks = [
+  ["Retail operations", "Keep products, sales and everyday activity in focus."],
+  ["Growing businesses", "Bring teams and operations into a more connected workflow."],
+  ["Multi-branch visibility", "Explore business and branch management capabilities where supported."],
+];
+export default function Solutions() {
+  return <InfoPage eyebrow="Solutions" title="Built for the way you work." description={description}>
+    <div className="grid gap-5 md:grid-cols-3">{blocks.map(([title, text]) => <article key={title} className="surface card-padding"><h2 className="text-xl font-bold">{title}</h2><p className="mt-4 leading-7 text-muted">{text}</p></article>)}</div>
+    <Link href="/products" className="button button-outline mt-8 w-full sm:w-auto">{actions.explore} →</Link>
+  </InfoPage>;
+}

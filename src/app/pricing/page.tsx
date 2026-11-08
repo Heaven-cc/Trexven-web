@@ -1,1 +1,13 @@
-import {CTA} from "@/components/sections";import {countries} from "@/config/site";import {PricingSelector} from "@/components/pricing-selector";export const metadata={title:"Pricing",description:"Explore TREXVEN Start, Core and Pro subscription plans."};export default function Pricing(){return <><section className="bg-cloud section"><div className="container-site text-center"><p className="eyebrow">Pricing</p><h1 className="heading mt-4">Simple plans. Room to grow.</h1><p className="text-slate-500 mt-6">Compare TREXVEN plans. Final subscription prices and entitlements will be published when verified.</p><PricingSelector countries={countries.map(x=>({...x}))}/></div></section><CTA/></>}
+import { PricingAvailability } from "@/components/pricing-selector";
+import { pageMetadata } from "@/config/metadata";
+
+export const metadata = pageMetadata("Subscription availability", "Find out where to view TREXVEN subscription availability for your business.", "/pricing");
+export default function Pricing() {
+  return <>
+    <section className="hero-glow page-hero"><div className="container-site max-w-4xl">
+      <p className="eyebrow">TREXVEN subscriptions</p><h1 className="hero-title mt-6">Room for your business to grow.</h1>
+      <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">Choose subscription options in TREXVEN Owner, where your business and available plans come together.</p>
+    </div></section>
+    <section className="section bg-cloud"><div className="container-site"><PricingAvailability /></div></section>
+  </>;
+}
