@@ -55,3 +55,63 @@
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .button:hover { transform: none; }
 }
+
+
+/* Editorial TREXVEN site language, adapted from the provided layout. */
+@font-face {
+  font-family: "Host Grotesk";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/hostgrotesk/v5/co3BmWBnlCJ3U42vbbfdwMjZpFjm.woff2") format("woff2");
+}
+:root {
+  color-scheme: light;
+  --canvas: 247 249 252; --surface: 255 255 255; --ink: 14 32 52;
+  --muted: 89 109 132; --line: 204 219 235; --wash: 232 240 250; --accent: 45 113 185;
+}
+body { font-family: "Host Grotesk", Arial, Helvetica, sans-serif; }
+:where(h1,h2,h3){ font-family: "Host Grotesk", Arial, Helvetica, sans-serif; }
+.container-site {max-width:1380px;padding-inline:clamp(19px,4vw,56px)}
+.section {padding-block:clamp(65px,9vw,130px)}
+.heading {font-weight:650;font-size:clamp(2.4rem,5.8vw,5.4rem);line-height:1;letter-spacing:-.047em}
+.hero-title {font-weight:650;font-size:clamp(3rem,7.5vw,7.4rem);line-height:.97}
+.eyebrow {font-size:.77rem;letter-spacing:.13em}
+.surface {border-radius:27px}
+.button {border-radius:999px;min-height:52px;padding-inline:25px}
+.button-blue {background:#5aa6f7;color:#071626}
+.button-blue:hover {background:#8fc4ff}
+.hero-glow {background:linear-gradient(120deg,#09192c,#183d65)}
+.theme-inverse {--accent:135 194 254}
+.trexven-floating-navigation {position:fixed;top:0;left:0;right:0;z-index:70;padding:14px clamp(14px,4vw,45px);pointer-events:none;color:white;font-family:"Host Grotesk",Arial,sans-serif}
+.trexven-nav-pill {pointer-events:auto;width:min(100%,1310px);margin:auto;min-height:64px;padding:6px 7px 6px 25px;display:flex;align-items:center;justify-content:space-between;gap:25px;border-radius:999px;background:rgba(5,20,38,.87);border:1px solid rgba(212,233,255,.20);backdrop-filter:blur(17px);-webkit-backdrop-filter:blur(17px);box-shadow:0 12px 36px #05122530}
+.trexven-nav-brand,.trexven-footer-smallbrand {font-size:1.45rem;letter-spacing:-.075em;font-weight:800;white-space:nowrap;text-decoration:none}
+.trexven-nav-brand span,.trexven-footer-smallbrand span,.trexven-footer-wordmark span{color:#73b7ff}
+.trexven-nav-links {display:flex;align-items:center;justify-content:center;gap:clamp(12px,1.9vw,28px);margin-left:auto}
+.trexven-nav-links a {font-size:.88rem;font-weight:550;color:#c1d2e7;text-decoration:none;transition:color .2s}
+.trexven-nav-links a:hover,.trexven-nav-links a.is-current {color:#fff}
+.trexven-nav-links a.is-current {text-decoration:underline;text-decoration-color:#8dc5ff;text-underline-offset:9px}
+.trexven-nav-cta {display:inline-flex;align-items:center;gap:12px;justify-content:center;min-height:49px;border-radius:999px;background:#6ab2ff;color:#071b30;padding:10px 22px;font-size:.86rem;font-weight:750;text-decoration:none;white-space:nowrap;transition:background .2s,transform .2s}
+.trexven-nav-cta:hover {background:#a2d1ff;transform:translateY(-1px)}
+.trexven-nav-toggle {display:none;width:46px;height:46px;align-items:center;justify-content:center;border-radius:999px;border:1px solid #cbe4ff40;background:#ffffff16;color:white;cursor:pointer}
+.trexven-mobile-nav[hidden] {display:none}
+.trexven-mobile-nav {pointer-events:auto;background:rgba(7,24,44,.98);border:1px solid #d5ebff29;backdrop-filter:blur(18px);border-radius:25px;box-shadow:0 20px 45px #06162666;max-height:calc(100dvh - 100px);overflow:auto;max-width:600px;margin:9px auto 0}
+.trexven-mobile-nav>div {display:flex;flex-direction:column;padding:15px}
+.trexven-mobile-nav a {text-decoration:none;padding:15px 17px;border-radius:13px;color:#d5e5f8;font-size:1rem;min-height:50px}
+.trexven-mobile-nav a.is-current {background:#ffffff14;color:white}
+.trexven-mobile-nav a.trexven-mobile-cta {margin-top:9px;background:#6ab2ff;color:#07182a;display:flex;align-items:center;justify-content:space-between;font-weight:750}
+main:not(:has(.experience-home)) {padding-top:94px}
+.trexven-editorial-footer {position:relative;z-index:10;background:#071322;color:#f7fbff;padding:clamp(75px,10vw,135px) 0 27px;border-radius:clamp(26px,4vw,55px) clamp(26px,4vw,55px) 0 0;margin-top:-38px;overflow:hidden}
+.trexven-footer-grid {display:grid;grid-template-columns:2fr repeat(3,1fr);gap:clamp(22px,4vw,67px)}
+.trexven-footer-intro p {font-size:1.34rem;max-width:235px;line-height:1.33;margin:23px 0 19px;color:#e8f3ff;letter-spacing:-.025em}
+.trexven-footer-odt {font-size:.82rem;color:#97b3ce}
+.trexven-footer-grid nav h2 {font-size:.82rem;font-weight:750;color:#dcecff;margin:8px 0 17px}
+.trexven-footer-grid nav ul {list-style:none;padding:0;margin:0}
+.trexven-footer-grid nav li {margin:0 0 9px}
+.trexven-footer-grid nav a {font-size:.86rem;text-decoration:none;color:#9bb3ce;line-height:1.5;display:inline-block;padding:4px 0;transition:color .2s}
+.trexven-footer-grid nav a:hover{color:#fff}
+.trexven-footer-wordmark {font-size:clamp(5rem,17vw,18rem);font-weight:800;letter-spacing:-.09em;line-height:1.15;white-space:nowrap;margin-top:70px;text-align:center}
+.trexven-footer-legal {padding-top:24px;border-top:1px solid #9ec7ef24;display:flex;justify-content:space-between;gap:20px;font-size:.76rem;color:#89a6c3}
+@media (max-width:1023px) {.trexven-nav-links,.trexven-nav-cta{display:none}.trexven-nav-toggle{display:flex;margin-left:auto}.trexven-nav-pill{padding-left:21px}}
+@media (max-width:700px) {.trexven-floating-navigation{padding:12px}.trexven-nav-pill{min-height:59px}.trexven-footer-grid{grid-template-columns:repeat(2,1fr);gap:35px 20px}.trexven-footer-intro{grid-column:1/-1}.trexven-footer-wordmark{font-size:clamp(4.05rem,16vw,9rem);margin-top:42px}.trexven-footer-legal{flex-direction:column}.trexven-editorial-footer{padding-top:77px}.trexven-nav-brand{font-size:1.3rem}}
+@media (prefers-reduced-motion:reduce){.trexven-nav-cta,.trexven-nav-links a{transition:none!important}}
